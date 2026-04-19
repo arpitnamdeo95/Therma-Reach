@@ -1,11 +1,28 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { CheckCircle2, ChevronRight, Target, Wrench, Zap, Phone, ThermometerSnowflake } from "lucide-react";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { CheckCircle2, ChevronRight, Target, Wrench, Zap, Phone, ThermometerSnowflake, User, Globe, Mail, ArrowRight, Loader2, Lock } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 
 export default function Home() {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    
+    // Simulate network latency for visual feedback
+    await new Promise(resolve => setTimeout(resolve, 1500));
+    
+    // Form Integration Point (e.g., Web3Forms endpoint)
+    // For now we simulate success and show the Thank You UI.
+    setIsSubmitting(false);
+    setIsSubmitted(true);
+  };
+
   return (
     <div className="flex flex-col min-h-screen">
       {/* Navigation */}
@@ -334,36 +351,103 @@ export default function Home() {
               whileInView={{ y: 0, opacity: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="max-w-md mx-auto bg-white rounded-xl shadow-2xl p-8 border border-slate-100 relative z-10"
+              className="max-w-md mx-auto bg-white rounded-2xl shadow-[0_20px_50px_-12px_rgba(0,0,0,0.3)] p-8 border border-white/20 relative z-10 overflow-hidden"
             >
-              <form className="space-y-5" onSubmit={(e) => e.preventDefault()}>
-                <div>
-                  <label htmlFor="fullName" className="block text-sm text-slate-700 mb-1 text-left">Full Name *</label>
-                  <input type="text" id="fullName" placeholder="Full Name" className="w-full px-4 py-3 bg-[#f8fcfd] border-none rounded-md focus:ring-2 focus:ring-primary-light transition-all outline-none text-slate-800 placeholder-slate-400" required />
-                </div>
-                <div>
-                  <label htmlFor="website" className="block text-sm text-slate-700 mb-1 text-left">Website *</label>
-                  <input type="url" id="website" placeholder="Web URL goes here" className="w-full px-4 py-3 bg-[#f8fcfd] border-none rounded-md focus:ring-2 focus:ring-primary-light transition-all outline-none text-slate-800 placeholder-slate-400" required />
-                </div>
-                <div>
-                  <label htmlFor="email" className="block text-sm text-slate-700 mb-1 text-left">Email *</label>
-                  <div className="relative">
-                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                      <svg className="h-4 w-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                      </svg>
+              <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary-light to-accent"></div>
+              
+              <AnimatePresence mode="wait">
+                {!isSubmitted ? (
+                  <motion.form 
+                    key="form"
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: 20 }}
+                    className="space-y-4" 
+                    onSubmit={handleSubmit}
+                  >
+                    <div>
+                      <label htmlFor="fullName" className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2 text-left">Full Name</label>
+                      <div className="relative">
+                        <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
+                          <User className="h-5 w-5 text-slate-400" />
+                        </div>
+                        <input type="text" id="fullName" placeholder="John Doe" className="w-full pl-11 pr-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-primary-light focus:border-transparent transition-all outline-none text-slate-800 placeholder-slate-400 shadow-sm" required />
+                      </div>
                     </div>
-                    <input type="email" id="email" placeholder="Email" className="w-full pl-9 pr-4 py-3 bg-[#f8fcfd] border-none rounded-md focus:ring-2 focus:ring-primary-light transition-all outline-none text-slate-800 placeholder-slate-400" required />
-                  </div>
-                </div>
-                <div>
-                  <label htmlFor="phone" className="block text-sm text-slate-700 mb-1 text-left">Phone *</label>
-                  <input type="tel" id="phone" placeholder="Phone" className="w-full px-4 py-3 bg-[#f8fcfd] border-none rounded-md focus:ring-2 focus:ring-primary-light transition-all outline-none text-slate-800 placeholder-slate-400" required />
-                </div>
-                <button type="submit" className="w-full py-4 px-6 bg-[#ff6a00] hover:bg-[#e65f00] text-white font-bold rounded-md shadow-md hover:shadow-lg transition-all mt-2">
-                  Get More Leads!
-                </button>
-              </form>
+                    <div>
+                      <label htmlFor="website" className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2 text-left">Website URL</label>
+                      <div className="relative">
+                        <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
+                          <Globe className="h-5 w-5 text-slate-400" />
+                        </div>
+                        <input type="url" id="website" placeholder="https://yourcompany.com" className="w-full pl-11 pr-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-primary-light focus:border-transparent transition-all outline-none text-slate-800 placeholder-slate-400 shadow-sm" required />
+                      </div>
+                    </div>
+                    <div>
+                      <label htmlFor="email" className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2 text-left">Email Address</label>
+                      <div className="relative">
+                        <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
+                          <Mail className="h-5 w-5 text-slate-400" />
+                        </div>
+                        <input type="email" id="email" placeholder="john@example.com" className="w-full pl-11 pr-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-primary-light focus:border-transparent transition-all outline-none text-slate-800 placeholder-slate-400 shadow-sm" required />
+                      </div>
+                    </div>
+                    <div>
+                      <label htmlFor="phone" className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2 text-left">Phone Number</label>
+                      <div className="relative">
+                        <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
+                          <Phone className="h-5 w-5 text-slate-400" />
+                        </div>
+                        <input type="tel" id="phone" placeholder="(555) 123-4567" className="w-full pl-11 pr-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-primary-light focus:border-transparent transition-all outline-none text-slate-800 placeholder-slate-400 shadow-sm" required />
+                      </div>
+                    </div>
+                    <button 
+                      type="submit" 
+                      disabled={isSubmitting}
+                      className="group relative w-full flex items-center justify-center py-4 px-6 bg-accent hover:bg-[#e65f00] text-white font-bold rounded-xl shadow-md hover:shadow-xl transition-all mt-6 overflow-hidden disabled:opacity-70 disabled:cursor-not-allowed"
+                    >
+                      <span className="relative z-10 flex items-center gap-2">
+                        {isSubmitting ? (
+                          <>
+                            <Loader2 className="w-5 h-5 animate-spin" />
+                            Processing Request...
+                          </>
+                        ) : (
+                          <>
+                            Get Exclusive Leads
+                            <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                          </>
+                        )}
+                      </span>
+                    </button>
+                    <p className="text-center text-xs text-slate-500 mt-4 flex items-center justify-center gap-1 font-medium">
+                      <Lock className="w-3 h-3" />
+                      Your information is secure and strictly confidential.
+                    </p>
+                  </motion.form>
+                ) : (
+                  <motion.div 
+                    key="success"
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    className="flex flex-col items-center justify-center py-12 text-center"
+                  >
+                    <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mb-6">
+                      <CheckCircle2 className="w-10 h-10 text-green-600" />
+                    </div>
+                    <h3 className="text-2xl font-extrabold text-slate-900 mb-2">Request Received!</h3>
+                    <p className="text-slate-600 leading-relaxed max-w-[250px] mx-auto text-base mb-8">
+                      We'll be in touch within 24 hours to discuss your territory availability.
+                    </p>
+                    <button 
+                      onClick={() => setIsSubmitted(false)}
+                      className="text-primary-light font-bold hover:text-blue-700 transition-colors flex items-center gap-2 px-4 py-2 bg-slate-50 rounded-lg border border-slate-200 hover:bg-slate-100"
+                    >
+                      Submit another area
+                    </button>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </motion.div>
           </div>
         </section>
