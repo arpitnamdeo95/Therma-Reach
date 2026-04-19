@@ -475,11 +475,8 @@ export default function Home() {
                 transition={{ duration: 0.5 }}
               >
                 <h2 className="text-4xl md:text-5xl font-extrabold text-white tracking-tight mb-4">
-                  Get 15 Quote-Ready HVAC Leads<br className="hidden sm:block"/>
+                  Get <span className="text-[#ff6a00]">20 Booked Jobs</span> In 90 Days
                 </h2>
-                <h3 className="text-3xl md:text-4xl font-extrabold text-[#ff6a00] mb-8">
-                  Within 30 Days, or You Don't Pay
-                </h3>
                 <p className="text-xl text-slate-300">
                   No complex retainers. No shared leads. Just a straightforward partnership.
                 </p>
@@ -598,14 +595,17 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16 px-4">
             <div className="col-span-1 md:col-span-1">
-              <Link href="/" className="inline-block mb-6">
-                <Image 
-                  src="/thermaReach-logo.png" 
-                  alt="ThermaReach Logo" 
-                  width={200} 
-                  height={50} 
-                  className="h-10 w-auto object-contain brightness-0 invert" 
-                />
+              <Link href="/" className="inline-flex items-center gap-3 mb-6">
+                <div className="bg-white rounded-full p-1 border-2 border-white">
+                  <Image 
+                    src="/halfLogo.png" 
+                    alt="ThermaReach Logo Icon" 
+                    width={40} 
+                    height={40} 
+                    className="h-8 w-auto object-contain mix-blend-multiply contrast-125 brightness-110" 
+                  />
+                </div>
+                <span className="font-extrabold text-2xl text-white tracking-tight">ThermaReach</span>
               </Link>
               <p className="text-slate-400 text-sm leading-relaxed mb-6">
                 The premier growth engine for high-ticket HVAC contractors across the United States. We specialize in turning ad spend into guaranteed booked jobs.
