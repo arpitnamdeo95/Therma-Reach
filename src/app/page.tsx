@@ -26,19 +26,21 @@ export default function Home() {
   return (
     <div className="flex flex-col min-h-screen">
       {/* Navigation */}
-      <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-200">
+      <nav className="sticky top-0 z-50 bg-white border-b border-slate-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-20">
             <div className="flex-shrink-0 flex items-center">
               <Link href="/" className="flex items-center gap-3">
-                <Image 
-                  src="/halfLogo.png" 
-                  alt="ThermaReach Logo Icon" 
-                  width={40} 
-                  height={40} 
-                  className="h-10 w-auto object-contain" 
-                  priority 
-                />
+                <div className="bg-white rounded-full">
+                  <Image 
+                    src="/halfLogo.png" 
+                    alt="ThermaReach Logo Icon" 
+                    width={40} 
+                    height={40} 
+                    className="h-10 w-auto object-contain mix-blend-multiply contrast-125 brightness-110" 
+                    priority 
+                  />
+                </div>
                 <span className="font-extrabold text-2xl text-primary tracking-tight">ThermaReach</span>
               </Link>
             </div>
@@ -321,10 +323,14 @@ export default function Home() {
         </section>
 
         {/* Guarantee / CTA Form Section */}
-        <section id="contact" className="py-24 bg-primary relative overflow-hidden">
-          {/* Decorative Background Elements */}
-          <div className="absolute top-0 right-0 -mr-20 -mt-20 w-96 h-96 bg-primary-light rounded-full blur-3xl opacity-20 pointer-events-none"></div>
-          <div className="absolute bottom-0 left-0 -ml-20 -mb-20 w-80 h-80 bg-accent rounded-full blur-3xl opacity-10 pointer-events-none"></div>
+        <section id="contact" className="py-24 relative overflow-hidden bg-gradient-to-b from-[#0A2540] to-[#041120]">
+          {/* Subtle Dot Pattern Overlay */}
+          <div className="absolute inset-0 bg-[radial-gradient(#ffffff22_1px,transparent_1px)] [background-size:24px_24px] opacity-40"></div>
+          
+          {/* Decorative Animated Glows */}
+          <div className="absolute top-0 right-0 w-[50vh] h-[50vh] bg-primary-light/30 rounded-full blur-[100px] -translate-y-1/4 translate-x-1/4 animate-[pulse_6s_ease-in-out_infinite] pointer-events-none"></div>
+          <div className="absolute bottom-0 left-0 w-[60vh] h-[60vh] bg-[#ff6a00]/15 rounded-full blur-[120px] translate-y-1/4 -translate-x-1/4 pointer-events-none"></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-[#041120] to-transparent pointer-events-none opacity-80"></div>
           
           <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="max-w-3xl mx-auto text-center mb-12">
@@ -351,9 +357,9 @@ export default function Home() {
               whileInView={{ y: 0, opacity: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="max-w-md mx-auto bg-white rounded-2xl shadow-[0_20px_50px_-12px_rgba(0,0,0,0.3)] p-8 border border-white/20 relative z-10 overflow-hidden"
+              className="max-w-md mx-auto bg-white rounded-2xl shadow-[0_20px_50px_-12px_rgba(0,0,0,0.5)] p-8 border border-white/10 relative z-10 overflow-hidden"
             >
-              <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary-light to-accent"></div>
+              <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary to-[#ff6a00]"></div>
               
               <AnimatePresence mode="wait">
                 {!isSubmitted ? (
@@ -362,49 +368,49 @@ export default function Home() {
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
                     exit={{ opacity: 0, x: 20 }}
-                    className="space-y-4" 
+                    className="space-y-5" 
                     onSubmit={handleSubmit}
                   >
                     <div>
-                      <label htmlFor="fullName" className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2 text-left">Full Name</label>
+                      <label htmlFor="fullName" className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2 text-left">Full Name</label>
                       <div className="relative">
                         <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
                           <User className="h-5 w-5 text-slate-400" />
                         </div>
-                        <input type="text" id="fullName" placeholder="John Doe" className="w-full pl-11 pr-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-primary-light focus:border-transparent transition-all outline-none text-slate-800 placeholder-slate-400 shadow-sm" required />
+                        <input type="text" id="fullName" placeholder="John Doe" className="w-full pl-11 pr-4 py-3.5 bg-white border-2 border-slate-200 rounded-xl focus:ring-2 focus:ring-[#ff6a00]/50 focus:border-[#ff6a00] transition-all outline-none text-slate-800 placeholder-slate-400 shadow-sm font-medium" required />
                       </div>
                     </div>
                     <div>
-                      <label htmlFor="website" className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2 text-left">Website URL</label>
+                      <label htmlFor="website" className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2 text-left">Website URL</label>
                       <div className="relative">
                         <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
                           <Globe className="h-5 w-5 text-slate-400" />
                         </div>
-                        <input type="url" id="website" placeholder="https://yourcompany.com" className="w-full pl-11 pr-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-primary-light focus:border-transparent transition-all outline-none text-slate-800 placeholder-slate-400 shadow-sm" required />
+                        <input type="url" id="website" placeholder="https://yourcompany.com" className="w-full pl-11 pr-4 py-3.5 bg-white border-2 border-slate-200 rounded-xl focus:ring-2 focus:ring-[#ff6a00]/50 focus:border-[#ff6a00] transition-all outline-none text-slate-800 placeholder-slate-400 shadow-sm font-medium" required />
                       </div>
                     </div>
                     <div>
-                      <label htmlFor="email" className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2 text-left">Email Address</label>
+                      <label htmlFor="email" className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2 text-left">Email Address</label>
                       <div className="relative">
                         <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
                           <Mail className="h-5 w-5 text-slate-400" />
                         </div>
-                        <input type="email" id="email" placeholder="john@example.com" className="w-full pl-11 pr-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-primary-light focus:border-transparent transition-all outline-none text-slate-800 placeholder-slate-400 shadow-sm" required />
+                        <input type="email" id="email" placeholder="john@example.com" className="w-full pl-11 pr-4 py-3.5 bg-white border-2 border-slate-200 rounded-xl focus:ring-2 focus:ring-[#ff6a00]/50 focus:border-[#ff6a00] transition-all outline-none text-slate-800 placeholder-slate-400 shadow-sm font-medium" required />
                       </div>
                     </div>
                     <div>
-                      <label htmlFor="phone" className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2 text-left">Phone Number</label>
+                      <label htmlFor="phone" className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2 text-left">Phone Number</label>
                       <div className="relative">
                         <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
                           <Phone className="h-5 w-5 text-slate-400" />
                         </div>
-                        <input type="tel" id="phone" placeholder="(555) 123-4567" className="w-full pl-11 pr-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-primary-light focus:border-transparent transition-all outline-none text-slate-800 placeholder-slate-400 shadow-sm" required />
+                        <input type="tel" id="phone" placeholder="(555) 123-4567" className="w-full pl-11 pr-4 py-3.5 bg-white border-2 border-slate-200 rounded-xl focus:ring-2 focus:ring-[#ff6a00]/50 focus:border-[#ff6a00] transition-all outline-none text-slate-800 placeholder-slate-400 shadow-sm font-medium" required />
                       </div>
                     </div>
                     <button 
                       type="submit" 
                       disabled={isSubmitting}
-                      className="group relative w-full flex items-center justify-center py-4 px-6 bg-accent hover:bg-[#e65f00] text-white font-bold rounded-xl shadow-md hover:shadow-xl transition-all mt-6 overflow-hidden disabled:opacity-70 disabled:cursor-not-allowed"
+                      className="group relative w-full flex items-center justify-center py-4 px-6 bg-[#ff6a00] hover:bg-[#e65f00] text-white font-bold text-lg rounded-xl shadow-lg hover:shadow-[#ff6a00]/25 transition-all mt-6 overflow-hidden disabled:opacity-70 disabled:cursor-not-allowed border-none"
                     >
                       <span className="relative z-10 flex items-center gap-2">
                         {isSubmitting ? (
@@ -441,7 +447,7 @@ export default function Home() {
                     </p>
                     <button 
                       onClick={() => setIsSubmitted(false)}
-                      className="text-primary-light font-bold hover:text-blue-700 transition-colors flex items-center gap-2 px-4 py-2 bg-slate-50 rounded-lg border border-slate-200 hover:bg-slate-100"
+                      className="text-[#ff6a00] font-bold hover:text-[#e65f00] transition-colors flex items-center gap-2 px-4 py-3 bg-orange-50 rounded-xl border border-orange-200 hover:bg-orange-100 w-full justify-center shadow-sm"
                     >
                       Submit another area
                     </button>
