@@ -2,13 +2,14 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { CheckCircle2, ChevronRight, Target, Wrench, Zap, Phone, ThermometerSnowflake, User, Globe, Mail, ArrowRight, Loader2, Lock } from "lucide-react";
+import { CheckCircle2, ChevronRight, Target, Wrench, Zap, Phone, ThermometerSnowflake, User, Globe, Mail, ArrowRight, Loader2, Lock, Menu, X } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 
 export default function Home() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -49,75 +50,208 @@ export default function Home() {
               <Link href="#process" className="text-slate-600 hover:text-primary-light font-medium transition-colors">Process</Link>
               <Link href="#guarantee" className="text-slate-600 hover:text-primary-light font-medium transition-colors">Guarantee</Link>
             </div>
-            <div className="flex items-center">
+            <div className="hidden md:flex items-center">
               <Link 
                 href="#contact" 
-                className="inline-flex items-center justify-center px-6 py-2.5 border border-transparent text-sm font-medium rounded-md text-white bg-primary hover:bg-primary/90 shadow-sm transition-all hover:shadow-md"
+                className="inline-flex items-center justify-center px-6 py-2.5 border border-transparent text-sm font-medium rounded-md text-white bg-primary hover:bg-primary/90 shadow-sm transition-all hover:shadow-md whitespace-nowrap"
               >
                 Get Leads Now
               </Link>
             </div>
+            
+            {/* Mobile Menu Toggle */}
+            <div className="flex md:hidden items-center">
+              <button 
+                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                className="text-slate-600 hover:text-primary transition-colors p-2 focus:outline-none"
+              >
+                {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              </button>
+            </div>
           </div>
         </div>
+
+        {/* Mobile Menu Dropdown */}
+        <AnimatePresence>
+          {isMobileMenuOpen && (
+            <motion.div
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: "auto", opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              className="md:hidden bg-white border-b border-primary/10 overflow-hidden shadow-xl absolute w-full left-0 origin-top"
+            >
+              <div className="px-4 py-6 space-y-4 flex flex-col bg-white">
+                <Link href="#about" onClick={() => setIsMobileMenuOpen(false)} className="block px-4 py-3 text-base font-semibold text-slate-700 hover:text-primary bg-slate-50/50 hover:bg-slate-50 rounded-xl transition-colors">About</Link>
+                <Link href="#process" onClick={() => setIsMobileMenuOpen(false)} className="block px-4 py-3 text-base font-semibold text-slate-700 hover:text-primary bg-slate-50/50 hover:bg-slate-50 rounded-xl transition-colors">Process</Link>
+                <Link href="#guarantee" onClick={() => setIsMobileMenuOpen(false)} className="block px-4 py-3 text-base font-semibold text-slate-700 hover:text-primary bg-slate-50/50 hover:bg-slate-50 rounded-xl transition-colors">Guarantee</Link>
+                <div className="pt-2">
+                  <Link href="#contact" onClick={() => setIsMobileMenuOpen(false)} className="block w-full text-center px-4 py-4 text-base font-bold text-white bg-[#ff6a00] hover:bg-[#e65f00] rounded-xl shadow-md transition-all">
+                    Get Leads Now
+                  </Link>
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </nav>
 
       <main className="flex-grow">
         {/* Hero Section */}
-        <section className="relative bg-white overflow-hidden pt-20 pb-28">
-          <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1581094794329-c8112a89af12?q=80&w=2000&auto=format&fit=crop')] bg-cover bg-center opacity-[0.03]"></div>
-          <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col items-center text-center">
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent text-primary-light text-sm font-semibold mb-8 border border-primary-light/20"
-            >
-              <span className="flex h-2 w-2 relative">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary-light opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-primary-light"></span>
-              </span>
-              Effortless Business Growth for US HVAC Contractors
-            </motion.div>
-            
-            <motion.h1 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.1 }}
-              className="text-5xl md:text-7xl font-extrabold text-primary tracking-tight max-w-4xl leading-[1.1]"
-            >
-              We Generate Exclusive, <br className="hidden md:block"/>
-              <span className="text-primary-light relative">
-                Quote-Ready HVAC Leads
-                <svg className="absolute -bottom-2 w-full h-3 text-accent -z-10" viewBox="0 0 100 100" preserveAspectRatio="none">
-                  <path d="M0,50 Q50,100 100,50 L100,100 L0,100 Z" fill="currentColor"/>
-                </svg>
-              </span>
-            </motion.h1>
-            
-            <motion.p 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              className="mt-8 text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed"
-            >
-              Keep your techs dispatched and trucks rolling. No shared leads. No heavy lifting required. You close deals, we bring them.
-            </motion.p>
-            
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.3 }}
-              className="mt-10 flex flex-col sm:flex-row gap-4 justify-center items-center"
-            >
-              <Link 
-                href="#contact" 
-                className="group inline-flex items-center justify-center px-8 py-4 border border-transparent text-lg font-medium rounded-lg text-white bg-primary-light hover:bg-blue-700 shadow-lg hover:shadow-xl transition-all w-full sm:w-auto"
+        <section className="relative bg-white overflow-hidden pt-20 pb-32 lg:pt-32 lg:pb-40">
+          {/* Dynamic Light Background Image & Overlays */}
+          <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2000&auto=format&fit=crop')] bg-cover bg-center opacity-[0.15]"></div>
+          <div className="absolute inset-0 bg-gradient-to-b from-white/95 via-white/80 to-slate-50"></div>
+          
+          {/* Subtle Ambient Color Blobs */}
+          <div className="absolute top-0 right-0 -m-32 w-96 h-96 bg-primary-light/10 rounded-full blur-[100px] pointer-events-none"></div>
+          <div className="absolute bottom-0 left-0 -m-32 w-96 h-96 bg-[#ff6a00]/5 rounded-full blur-[100px] pointer-events-none"></div>
+          
+          <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-10">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-8 items-center">
+              {/* Left Column: Copy & CTA */}
+              <div className="flex flex-col items-center text-center lg:items-start lg:text-left">
+                <motion.div 
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5 }}
+                  className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/80 backdrop-blur-sm text-primary-light text-sm font-bold mb-8 border border-slate-200 shadow-sm"
+                >
+                  <span className="flex h-2 w-2 relative">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary-light opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-2 w-2 bg-primary-light"></span>
+                  </span>
+                  Effortless Business Growth for US HVAC Contractors
+                </motion.div>
+                
+                <motion.h1 
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 0.1 }}
+                  className="text-5xl md:text-6xl lg:text-7xl font-extrabold text-primary tracking-tight leading-[1.15] max-w-2xl"
+                >
+                  We Can Get You <br className="hidden lg:block"/>
+                  <span className="text-primary-light">20 Booked Jobs</span> <br/>
+                  <span className="relative inline-block mt-3">
+                    In 90 Days.
+                    <svg className="absolute -bottom-2 w-full h-4 text-[#ff6a00] -z-10 opacity-70" viewBox="0 0 100 100" preserveAspectRatio="none">
+                      <path d="M0,50 Q50,100 100,50 L100,100 L0,100 Z" fill="currentColor"/>
+                    </svg>
+                  </span>
+                </motion.h1>
+                
+                <motion.p 
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 0.2 }}
+                  className="mt-6 text-xl text-slate-600 leading-relaxed font-medium max-w-xl"
+                >
+                  Keep your techs dispatched and trucks rolling. No shared leads. No heavy lifting required. You close deals, we bring them.
+                </motion.p>
+                
+                <motion.div 
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 0.3 }}
+                  className="mt-10 flex flex-col sm:flex-row gap-4 w-full sm:w-auto"
+                >
+                  <Link 
+                    href="#contact" 
+                    className="group inline-flex items-center justify-center px-8 py-4 border border-transparent text-lg font-bold rounded-xl text-white bg-primary hover:bg-primary-light shadow-lg shadow-primary/20 hover:shadow-xl transition-all w-full sm:w-auto whitespace-nowrap"
+                  >
+                    Claim Your Area Today
+                    <ChevronRight className="ml-2 -mr-1 w-6 h-6 group-hover:translate-x-1 transition-transform" />
+                  </Link>
+                  <div className="flex items-center justify-center px-4 py-2 bg-white/80 backdrop-blur-sm rounded-xl border border-slate-200 shadow-sm w-full sm:w-auto whitespace-nowrap">
+                    <Lock className="w-4 h-4 text-slate-400 mr-2 shrink-0" />
+                    <span className="text-sm text-slate-500 font-medium">Limited exact-match territories.</span>
+                  </div>
+                </motion.div>
+              </div>
+
+              {/* Right Column: Dynamic Mockup */}
+              <motion.div 
+                initial={{ opacity: 0, scale: 0.95, x: 20 }}
+                animate={{ opacity: 1, scale: 1, x: 0 }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+                className="relative w-full mt-16 md:mt-12 lg:mt-0"
               >
-                Claim Your Area Today
-                <ChevronRight className="ml-2 -mr-1 w-5 h-5 group-hover:translate-x-1 transition-transform" />
-              </Link>
-              <span className="text-sm text-slate-500 font-medium">Limited exact-match territories available.</span>
-            </motion.div>
+                {/* Mockup Container */}
+                <div className="relative bg-white/60 backdrop-blur-xl border border-white rounded-[2rem] p-6 shadow-2xl w-full max-w-lg mx-auto">
+                  <div className="flex items-center justify-between mb-8">
+                    <div>
+                      <h3 className="font-bold text-slate-900 text-lg">Dispatch Calendar</h3>
+                      <p className="text-xs text-slate-500 font-medium mt-1">Next 24 Hours</p>
+                    </div>
+                    <div className="h-10 w-10 bg-green-100 rounded-full flex items-center justify-center text-green-600 shadow-sm">
+                      <CheckCircle2 className="w-5 h-5" />
+                    </div>
+                  </div>
+                  
+                  {/* Floating Notification Cards */}
+                  <div className="space-y-4">
+                    {/* Card 1 */}
+                    <div className="bg-white p-4 rounded-xl border border-slate-100 shadow-sm flex items-center gap-4 transform transition-all hover:scale-[1.02] hover:shadow-md cursor-pointer">
+                      <div className="h-12 w-12 bg-blue-50 rounded-lg flex items-center justify-center text-primary-light shrink-0">
+                        <ThermometerSnowflake className="w-6 h-6" />
+                      </div>
+                      <div className="flex-grow min-w-0">
+                        <h4 className="font-bold text-slate-900 text-sm truncate">Full AC Replacement</h4>
+                        <p className="text-xs text-slate-500 truncate mt-0.5">123 Oak St, Dallas, TX</p>
+                      </div>
+                      <div className="text-right shrink-0">
+                        <span className="inline-block px-2 py-0.5 bg-green-100 text-green-700 text-[10px] font-bold rounded-full uppercase tracking-wider mb-1">Confirmed</span>
+                        <p className="text-xs text-slate-400 font-medium">8:00 AM</p>
+                      </div>
+                    </div>
+
+                    {/* Card 2 */}
+                    <div className="bg-white p-4 rounded-xl border border-slate-100 shadow-sm flex items-center gap-4 transform transition-all hover:scale-[1.02] hover:shadow-md cursor-pointer ml-4 relative">
+                      <div className="absolute -left-3 top-1/2 -translate-y-1/2 w-1.5 h-8 bg-[#ff6a00] rounded-r-md"></div>
+                      <div className="h-12 w-12 bg-orange-50 rounded-lg flex items-center justify-center text-[#ff6a00] shrink-0">
+                        <Zap className="w-6 h-6" />
+                      </div>
+                      <div className="flex-grow min-w-0">
+                        <h4 className="font-bold text-slate-900 text-sm truncate">Emergency Furnace Repair</h4>
+                        <p className="text-xs text-slate-500 truncate mt-0.5">450 Pine Ave, Dallas, TX</p>
+                      </div>
+                      <div className="text-right shrink-0">
+                        <span className="inline-block px-2 py-0.5 bg-amber-100 text-amber-700 text-[10px] font-bold rounded-full uppercase tracking-wider mb-1">High Value</span>
+                        <p className="text-xs text-slate-400 font-medium">11:30 AM</p>
+                      </div>
+                    </div>
+
+                    {/* Card 3 */}
+                    <div className="bg-white p-4 rounded-xl border border-slate-100 shadow-sm flex items-center gap-4 transform transition-all hover:scale-[1.02] hover:shadow-md cursor-pointer">
+                      <div className="h-12 w-12 bg-blue-50 rounded-lg flex items-center justify-center text-primary-light shrink-0">
+                        <ThermometerSnowflake className="w-6 h-6" />
+                      </div>
+                      <div className="flex-grow min-w-0">
+                        <h4 className="font-bold text-slate-900 text-sm truncate">System Diagnostic</h4>
+                        <p className="text-xs text-slate-500 truncate mt-0.5">88 Maple Rd, Dallas, TX</p>
+                      </div>
+                      <div className="text-right shrink-0">
+                        <span className="inline-block px-2 py-0.5 bg-green-100 text-green-700 text-[10px] font-bold rounded-full uppercase tracking-wider mb-1">Confirmed</span>
+                        <p className="text-xs text-slate-400 font-medium">2:00 PM</p>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  {/* Decorative Elements */}
+                  <div className="absolute -right-2 sm:-right-8 -bottom-6 sm:-bottom-8 bg-white p-3 sm:p-4 rounded-2xl shadow-xl border border-slate-100 animate-bounce cursor-default scale-90 sm:scale-100 origin-bottom-right" style={{ animationDuration: '3s' }}>
+                    <div className="flex items-center gap-3">
+                      <div className="relative">
+                        <User className="w-10 h-10 text-primary bg-slate-50 rounded-full p-2" />
+                        <span className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-white"></span>
+                      </div>
+                      <div>
+                        <p className="text-xs font-bold text-slate-900">New Lead!</p>
+                        <p className="text-[10px] text-slate-500 mt-0.5">Ready for dispatch</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            </div>
           </div>
         </section>
 
@@ -236,11 +370,11 @@ export default function Home() {
                 <div className="absolute -top-6 -left-6 text-8xl font-black text-slate-200/50 group-hover:text-accent transition-colors">1</div>
                 <div className="relative z-10 text-center flex flex-col items-center">
                   <div className="w-16 h-16 bg-white shadow-sm rounded-xl flex items-center justify-center mb-6 border border-slate-100 text-primary-light">
-                    <Wrench className="w-8 h-8" />
+                    <Target className="w-8 h-8" />
                   </div>
-                  <h3 className="text-xl font-bold text-slate-900 mb-3">System Blueprint</h3>
+                  <h3 className="text-xl font-bold text-slate-900 mb-3">Targeted Meta Ads</h3>
                   <p className="text-slate-600 leading-relaxed">
-                    We analyze your local US market and create high-converting ad assets tailored specifically to AC replacements, heating systems, and high-margin services.
+                    We run highly sophisticated and localized Meta (Facebook & Instagram) ad campaigns designed specifically to capture homeowners actively seeking immediate HVAC services.
                   </p>
                 </div>
               </motion.div>
@@ -256,11 +390,11 @@ export default function Home() {
                 <div className="absolute -top-6 -left-6 text-8xl font-black text-slate-200/50 group-hover:text-accent transition-colors">2</div>
                 <div className="relative z-10 text-center flex flex-col items-center">
                   <div className="w-16 h-16 bg-white shadow-sm rounded-xl flex items-center justify-center mb-6 border border-slate-100 text-primary-light">
-                    <Target className="w-8 h-8" />
+                    <Phone className="w-8 h-8" />
                   </div>
-                  <h3 className="text-xl font-bold text-slate-900 mb-3">Launch & Target</h3>
+                  <h3 className="text-xl font-bold text-slate-900 mb-3">AI Caller Qualification</h3>
                   <p className="text-slate-600 leading-relaxed">
-                    We deploy precision advertising campaigns across premium social and search networks, targeting homeowners directly when they need you most.
+                    Within seconds of a lead opting in, our trained AI Caller contacts them. It pre-qualifies their specific HVAC need, filters out tire-kickers, and ensures they are ready to buy.
                   </p>
                 </div>
               </motion.div>
@@ -276,11 +410,11 @@ export default function Home() {
                 <div className="absolute -top-6 -left-6 text-8xl font-black text-slate-200/50 group-hover:text-accent transition-colors">3</div>
                 <div className="relative z-10 text-center flex flex-col items-center">
                   <div className="w-16 h-16 bg-white shadow-sm rounded-xl flex items-center justify-center mb-6 border border-slate-100 text-primary-light">
-                    <Zap className="w-8 h-8" />
+                    <CheckCircle2 className="w-8 h-8" />
                   </div>
-                  <h3 className="text-xl font-bold text-slate-900 mb-3">Dispatch & Profit</h3>
+                  <h3 className="text-xl font-bold text-slate-900 mb-3">Booked Jobs directly</h3>
                   <p className="text-slate-600 leading-relaxed">
-                    You receive piping hot, pre-qualified, and quote-ready leads directly to your CRM or phone. All you have to do is answer and dispatch.
+                    Once fully qualified, the appointment is seamlessly injected directly into your dispatch calendar. You skip the chase entirely and just send your techs out to do the work.
                   </p>
                 </div>
               </motion.div>
@@ -460,26 +594,74 @@ export default function Home() {
       </main>
 
       {/* Footer */}
-      <footer className="bg-slate-950 py-12 border-t border-slate-900">
+      <footer className="bg-[#041120] pt-20 pb-10 border-t border-slate-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-6">
-            <div className="flex items-center">
-              <Link href="/">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16 px-4">
+            <div className="col-span-1 md:col-span-1">
+              <Link href="/" className="inline-block mb-6">
                 <Image 
                   src="/thermaReach-logo.png" 
                   alt="ThermaReach Logo" 
                   width={200} 
                   height={50} 
-                  className="h-8 w-auto object-contain" 
+                  className="h-10 w-auto object-contain brightness-0 invert" 
                 />
               </Link>
+              <p className="text-slate-400 text-sm leading-relaxed mb-6">
+                The premier growth engine for high-ticket HVAC contractors across the United States. We specialize in turning ad spend into guaranteed booked jobs.
+              </p>
+              <div className="flex items-center gap-2 text-[#ff6a00] font-medium text-sm">
+                <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+                Accepting new partners globally
+              </div>
             </div>
-            <p className="text-slate-400 text-sm">
-              © {new Date().getFullYear()} ThermaReach. All Rights Reserved.
+            
+            <div>
+              <h4 className="text-white font-bold mb-6 tracking-wide uppercase text-sm">Quick Links</h4>
+              <ul className="space-y-4">
+                <li><Link href="/" className="text-slate-400 hover:text-white transition-colors text-sm">Home</Link></li>
+                <li><Link href="/offer" className="text-slate-400 hover:text-white transition-colors text-sm flex items-center gap-2">Our Offer <span className="bg-[#ff6a00]/20 text-[#ff6a00] text-[10px] uppercase px-2 py-0.5 rounded-full font-bold">New</span></Link></li>
+                <li><Link href="#about" className="text-slate-400 hover:text-white transition-colors text-sm">About Us</Link></li>
+                <li><Link href="#process" className="text-slate-400 hover:text-white transition-colors text-sm">How It Works</Link></li>
+              </ul>
+            </div>
+            
+            <div>
+              <h4 className="text-white font-bold mb-6 tracking-wide uppercase text-sm">Services</h4>
+              <ul className="space-y-4">
+                <li className="text-slate-400 text-sm">Targeted Meta Ads</li>
+                <li className="text-slate-400 text-sm">AI Lead Qualification</li>
+                <li className="text-slate-400 text-sm">Direct Calendar Booking</li>
+                <li className="text-slate-400 text-sm">Growth Consulting</li>
+              </ul>
+            </div>
+            
+            <div>
+              <h4 className="text-white font-bold mb-6 tracking-wide uppercase text-sm">Get In Touch</h4>
+              <ul className="space-y-4">
+                <li className="flex items-start gap-3">
+                  <Mail className="w-5 h-5 text-primary-light shrink-0" />
+                  <span className="text-slate-400 text-sm">hello@thermareach.com</span>
+                </li>
+                <li className="flex items-start gap-3 mt-4">
+                  <div className="flex-grow">
+                    <p className="text-slate-300 text-sm font-medium mb-3">Ready to scale your HVAC business?</p>
+                    <Link href="#contact" className="inline-block bg-white text-primary font-bold text-xs uppercase tracking-wide px-4 py-2 rounded-lg hover:bg-slate-200 transition-colors">
+                      Book a Strategy Call
+                    </Link>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+          
+          <div className="border-t border-slate-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 px-4 text-center md:text-left">
+            <p className="text-slate-500 text-sm">
+              © {new Date().getFullYear()} ThermaReach Agency. All Rights Reserved.
             </p>
-            <div className="flex space-x-6 text-sm text-slate-400">
-              <Link href="#" className="hover:text-white transition-colors">Privacy Policy</Link>
-              <Link href="#" className="hover:text-white transition-colors">Terms of Service</Link>
+            <div className="flex space-x-6 text-sm">
+              <Link href="#" className="text-slate-500 hover:text-white transition-colors">Privacy Policy</Link>
+              <Link href="#" className="text-slate-500 hover:text-white transition-colors">Terms & Conditions</Link>
             </div>
           </div>
         </div>
