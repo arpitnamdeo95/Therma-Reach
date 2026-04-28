@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { CheckCircle2, ChevronRight, Target, Home, Key, Phone, MapPin, User, Globe, Mail, ArrowRight, Loader2, Lock, Menu, X, Building, TrendingUp, ShieldCheck, ChevronDown } from "lucide-react";
+import { motion, AnimatePresence, type Variants } from "framer-motion";
+import { CheckCircle2, ChevronRight, Target, Home, Key, Phone, MapPin, User, Mail, ArrowRight, Loader2, Lock, Menu, X, TrendingUp, ShieldCheck, ChevronDown } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -28,12 +28,12 @@ export default function HomePage() {
     setOpenFaq(openFaq === index ? null : index);
   };
 
-  const fadeInUp = {
+  const fadeInUp: Variants = {
     hidden: { opacity: 0, y: 30 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } }
   };
 
-  const staggerContainer = {
+  const staggerContainer: Variants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
