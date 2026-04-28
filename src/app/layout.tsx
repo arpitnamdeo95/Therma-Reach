@@ -8,8 +8,8 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "ThermaReach | Premium HVAC Leads",
-  description: "Exclusive, quote-ready HVAC leads for US contractors. No heavy lifting, no shared leads.",
+  title: "DomiReach | Premium Real Estate Leads",
+  description: "Exclusive, buyer-ready real estate leads for US agents & brokers. No shared leads. No heavy lifting. You close deals, we bring them.",
 };
 
 export default function RootLayout({
