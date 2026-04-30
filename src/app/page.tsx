@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence, type Variants } from "framer-motion";
-import { CheckCircle2, ChevronRight, Target, Home, Key, Phone, MapPin, User, Mail, ArrowRight, Loader2, Lock, Menu, X, TrendingUp, ShieldCheck, ChevronDown } from "lucide-react";
+import { CheckCircle2, ChevronRight, Phone, MapPin, User, Mail, ArrowRight, Loader2, Lock, Menu, X, ShieldCheck, ChevronDown, Target, Calendar } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -11,15 +11,19 @@ export default function HomePage() {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [openFaq, setOpenFaq] = useState<number | null>(0);
+  const [formData, setFormData] = useState({ name: "", email: "", phone: "", zip: "" });
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitting(true);
-
-    // Simulate network latency for visual feedback
-    await new Promise(resolve => setTimeout(resolve, 1500));
-
-    // Form Integration Point
+    const fd = new FormData(e.currentTarget);
+    setFormData({
+      name: fd.get("fullName") as string,
+      email: fd.get("email") as string,
+      phone: fd.get("phone") as string,
+      zip: fd.get("zipCode") as string,
+    });
+    await new Promise(resolve => setTimeout(resolve, 1200));
     setIsSubmitting(false);
     setIsSubmitted(true);
   };
@@ -114,198 +118,95 @@ export default function HomePage() {
       </nav>
 
       <main className="flex-grow pt-20">
-        {/* Hero Section */}
-        <section className="relative bg-slate-50 overflow-hidden pt-16 pb-24 lg:pt-24 lg:pb-32">
-          {/* Subtle Grid Background */}
-          <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.03] mix-blend-overlay pointer-events-none"></div>
-          <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]"></div>
+        {/* Hero Section — full-screen, centered */}
+        <section className="relative bg-slate-50 overflow-hidden min-h-[calc(100vh-80px)] flex items-center">
+          {/* Grid Background */}
+          <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] pointer-events-none"></div>
 
           {/* Ambient Color Blobs */}
-          <motion.div 
-            animate={{ 
-              scale: [1, 1.1, 1],
-              opacity: [0.3, 0.4, 0.3] 
-            }}
+          <motion.div
+            animate={{ scale: [1, 1.1, 1], opacity: [0.3, 0.4, 0.3] }}
             transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
             className="absolute top-20 right-10 w-96 h-96 bg-primary-light/20 rounded-full blur-[100px] pointer-events-none"
-          ></motion.div>
-          <motion.div 
-            animate={{ 
-              scale: [1, 1.2, 1],
-              opacity: [0.2, 0.3, 0.2] 
-            }}
+          />
+          <motion.div
+            animate={{ scale: [1, 1.2, 1], opacity: [0.2, 0.3, 0.2] }}
             transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 1 }}
             className="absolute bottom-10 left-10 w-96 h-96 bg-[#ff6a00]/20 rounded-full blur-[120px] pointer-events-none"
-          ></motion.div>
+          />
 
-          <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-10">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-8 items-center">
-              {/* Left Column: Copy & CTA */}
-              <div className="flex flex-col items-center text-center lg:items-start lg:text-left">
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5 }}
-                  className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white backdrop-blur-sm text-primary-light text-sm font-bold mb-8 border border-primary/10 shadow-sm"
-                >
-                  <span className="flex h-2 w-2 relative">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#ff6a00] opacity-75"></span>
-                    <span className="relative inline-flex rounded-full h-2 w-2 bg-[#ff6a00]"></span>
-                  </span>
-                  Data-Driven Real Estate Growth
-                </motion.div>
+          <div className="relative w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 z-10 py-24 flex flex-col items-center text-center">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white text-primary-light text-sm font-bold mb-8 border border-primary/10 shadow-sm"
+            >
+              <span className="flex h-2 w-2 relative">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#ff6a00] opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-[#ff6a00]"></span>
+              </span>
+              Data-Driven Real Estate Growth
+            </motion.div>
 
-                <motion.h1
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.1 }}
-                  className="text-5xl md:text-6xl lg:text-7xl font-extrabold text-primary tracking-tight leading-[1.1] max-w-2xl"
-                >
-                  Predictable <br className="hidden lg:block" />
-                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-light to-blue-400">Buyer & Seller</span> <br />
-                  <span className="relative inline-block mt-2">
-                    Appointments.
-                    <svg className="absolute -bottom-2 w-full h-3 text-[#ff6a00] -z-10 opacity-60" viewBox="0 0 100 100" preserveAspectRatio="none">
-                      <path d="M0,50 Q50,100 100,50 L100,100 L0,100 Z" fill="currentColor" />
-                    </svg>
-                  </span>
-                </motion.h1>
+            <motion.h1
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+              className="text-5xl md:text-6xl lg:text-7xl font-extrabold text-primary tracking-tight leading-[1.1]"
+            >
+              Predictable{" "}
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-light to-blue-400">Buyer &amp; Seller</span>
+              <br />
+              <span className="relative inline-block mt-2">
+                Appointments.
+                <svg className="absolute -bottom-2 w-full h-3 text-[#ff6a00] -z-10 opacity-60" viewBox="0 0 100 100" preserveAspectRatio="none">
+                  <path d="M0,50 Q50,100 100,50 L100,100 L0,100 Z" fill="currentColor" />
+                </svg>
+              </span>
+            </motion.h1>
 
-                <motion.p
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.2 }}
-                  className="mt-6 text-xl text-slate-600 leading-relaxed font-medium max-w-xl"
-                >
-                  We build highly-targeted digital acquisition systems that generate exclusive, pre-vetted leads in your local market. No shared lists. No empty promises.
-                </motion.p>
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className="mt-6 text-xl text-slate-600 leading-relaxed font-medium max-w-2xl"
+            >
+              We build highly-targeted digital acquisition systems that generate exclusive, pre-vetted leads in your local market. No shared lists. No empty promises.
+            </motion.p>
 
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.3 }}
-                  className="mt-10 flex flex-col sm:flex-row gap-4 w-full sm:w-auto"
-                >
-                  <Link
-                    href="#contact"
-                    className="group relative inline-flex items-center justify-center px-8 py-4 border border-transparent text-lg font-bold rounded-xl text-white bg-primary overflow-hidden shadow-xl shadow-primary/20 transition-all hover:scale-105 hover:shadow-primary/30 w-full sm:w-auto whitespace-nowrap"
-                  >
-                    <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:animate-[shimmer_1.5s_infinite]"></span>
-                    Claim Your Market
-                    <ChevronRight className="ml-2 -mr-1 w-6 h-6 group-hover:translate-x-1 transition-transform" />
-                  </Link>
-                  <div className="flex items-center justify-center px-5 py-4 bg-white rounded-xl border border-slate-200 shadow-sm w-full sm:w-auto whitespace-nowrap">
-                    <MapPin className="w-5 h-5 text-[#ff6a00] mr-2 shrink-0" />
-                    <span className="text-sm text-slate-700 font-bold">1 Agent Per Zip Code</span>
-                  </div>
-                </motion.div>
-              </div>
-
-              {/* Right Column: Dynamic Mockup */}
-              <motion.div
-                initial={{ opacity: 0, x: 40 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.8, delay: 0.3, type: "spring", stiffness: 50 }}
-                className="relative w-full mt-16 md:mt-12 lg:mt-0"
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+              className="mt-10 flex flex-col sm:flex-row gap-4 justify-center"
+            >
+              <Link
+                href="#contact"
+                className="group relative inline-flex items-center justify-center px-8 py-4 border border-transparent text-lg font-bold rounded-xl text-white bg-primary overflow-hidden shadow-xl shadow-primary/20 transition-all hover:scale-105 hover:shadow-primary/30 whitespace-nowrap"
               >
-                {/* Mockup Container */}
-                <div className="relative bg-white/70 backdrop-blur-xl border border-white rounded-3xl p-6 shadow-[0_20px_50px_-12px_rgba(0,0,0,0.1)] w-full max-w-lg mx-auto">
-                  <div className="flex items-center justify-between mb-8 border-b border-slate-100 pb-4">
-                    <div>
-                      <h3 className="font-extrabold text-slate-900 text-lg flex items-center gap-2">
-                        <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
-                        Live CRM Feed
-                      </h3>
-                      <p className="text-xs text-slate-500 font-medium mt-1">Incoming Opportunities</p>
-                    </div>
-                    <div className="h-10 w-10 bg-primary/5 rounded-full flex items-center justify-center text-primary shadow-inner">
-                      <Target className="w-5 h-5" />
-                    </div>
-                  </div>
+                <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:animate-[shimmer_1.5s_infinite]"></span>
+                Claim Your Market
+                <ChevronRight className="ml-2 -mr-1 w-6 h-6 group-hover:translate-x-1 transition-transform" />
+              </Link>
+              <div className="flex items-center justify-center px-5 py-4 bg-white rounded-xl border border-slate-200 shadow-sm whitespace-nowrap">
+                <MapPin className="w-5 h-5 text-[#ff6a00] mr-2 shrink-0" />
+                <span className="text-sm text-slate-700 font-bold">1 Agent Per Zip Code</span>
+              </div>
+            </motion.div>
 
-                  {/* Floating Notification Cards */}
-                  <div className="space-y-4">
-                    <motion.div 
-                      animate={{ y: [0, -5, 0] }} 
-                      transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                      className="bg-white p-4 rounded-xl border border-slate-100 shadow-sm flex items-center gap-4 relative overflow-hidden"
-                    >
-                      <div className="absolute left-0 top-0 bottom-0 w-1 bg-green-500"></div>
-                      <div className="h-12 w-12 bg-green-50 rounded-lg flex items-center justify-center text-green-600 shrink-0">
-                        <Home className="w-6 h-6" />
-                      </div>
-                      <div className="flex-grow min-w-0">
-                        <h4 className="font-bold text-slate-900 text-sm truncate">Buyer Lead Captured</h4>
-                        <p className="text-xs text-slate-500 truncate mt-0.5">Budget: $600k - $800k</p>
-                      </div>
-                      <div className="text-right shrink-0">
-                        <span className="inline-block px-2 py-0.5 bg-green-100 text-green-700 text-[10px] font-bold rounded-md uppercase tracking-wider mb-1">Qualified</span>
-                        <p className="text-xs text-slate-400 font-medium">Just now</p>
-                      </div>
-                    </motion.div>
-
-                    <motion.div 
-                      animate={{ y: [0, -5, 0] }} 
-                      transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
-                      className="bg-white p-4 rounded-xl border border-slate-100 shadow-sm flex items-center gap-4 relative overflow-hidden ml-4"
-                    >
-                      <div className="absolute left-0 top-0 bottom-0 w-1 bg-[#ff6a00]"></div>
-                      <div className="h-12 w-12 bg-orange-50 rounded-lg flex items-center justify-center text-[#ff6a00] shrink-0">
-                        <Key className="w-6 h-6" />
-                      </div>
-                      <div className="flex-grow min-w-0">
-                        <h4 className="font-bold text-slate-900 text-sm truncate">Listing Opportunity</h4>
-                        <p className="text-xs text-slate-500 truncate mt-0.5">Timeline: 30-60 Days</p>
-                      </div>
-                      <div className="text-right shrink-0">
-                        <span className="inline-block px-2 py-0.5 bg-orange-100 text-orange-700 text-[10px] font-bold rounded-md uppercase tracking-wider mb-1">High Intent</span>
-                        <p className="text-xs text-slate-400 font-medium">12 mins ago</p>
-                      </div>
-                    </motion.div>
-
-                    <motion.div 
-                      animate={{ y: [0, -5, 0] }} 
-                      transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-                      className="bg-white p-4 rounded-xl border border-slate-100 shadow-sm flex items-center gap-4 relative overflow-hidden"
-                    >
-                      <div className="absolute left-0 top-0 bottom-0 w-1 bg-blue-500"></div>
-                      <div className="h-12 w-12 bg-blue-50 rounded-lg flex items-center justify-center text-blue-600 shrink-0">
-                        <Phone className="w-6 h-6" />
-                      </div>
-                      <div className="flex-grow min-w-0">
-                        <h4 className="font-bold text-slate-900 text-sm truncate">Meeting Booked</h4>
-                        <p className="text-xs text-slate-500 truncate mt-0.5">Automated Follow-up Success</p>
-                      </div>
-                      <div className="text-right shrink-0">
-                        <span className="inline-block px-2 py-0.5 bg-blue-100 text-blue-700 text-[10px] font-bold rounded-md uppercase tracking-wider mb-1">Scheduled</span>
-                        <p className="text-xs text-slate-400 font-medium">1 hr ago</p>
-                      </div>
-                    </motion.div>
-                  </div>
-
-                  {/* Decorative Elements */}
-                  <motion.div 
-                    animate={{ y: [0, 10, 0] }}
-                    transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-                    className="absolute -right-4 -bottom-6 bg-white p-4 rounded-2xl shadow-xl border border-slate-100 scale-90 sm:scale-100"
-                  >
-                    <div className="flex items-center gap-3">
-                      <div className="relative">
-                        <div className="w-10 h-10 bg-gradient-to-tr from-primary to-primary-light rounded-full flex items-center justify-center text-white">
-                          <TrendingUp className="w-5 h-5" />
-                        </div>
-                      </div>
-                      <div>
-                        <p className="text-xs font-bold text-slate-900">Pipeline Growth</p>
-                        <p className="text-[10px] text-green-600 font-bold mt-0.5 flex items-center gap-1">
-                          + Increased Volume
-                        </p>
-                      </div>
-                    </div>
-                  </motion.div>
-                </div>
-              </motion.div>
-            </div>
+            {/* Trust badges */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.5 }}
+              className="mt-16 flex flex-wrap justify-center gap-6 text-sm text-slate-500 font-medium"
+            >
+              <span className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-green-500" />Exclusive Leads</span>
+              <span className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-green-500" />Real-Time Delivery</span>
+              <span className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-green-500" />No Shared Lists</span>
+              <span className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-green-500" />Transparent Reporting</span>
+            </motion.div>
           </div>
         </section>
 
@@ -534,7 +435,7 @@ export default function HomePage() {
                         exit={{ height: 0, opacity: 0 }}
                         className="overflow-hidden"
                       >
-                        <div className="px-6 pb-5 pt-0 text-slate-600 text-sm leading-relaxed border-t border-slate-100 mt-2 pt-4">
+                        <div className="px-6 pb-5 pt-4 text-slate-600 text-sm leading-relaxed border-t border-slate-100">
                           {faq.a}
                         </div>
                       </motion.div>
@@ -546,29 +447,59 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* Contact Form Section */}
+        {/* Contact / Book Section */}
         <section id="contact" className="py-24 relative overflow-hidden bg-[#0A2540]">
-          {/* Subtle Dot Pattern Overlay */}
           <div className="absolute inset-0 bg-[radial-gradient(#ffffff15_1px,transparent_1px)] [background-size:24px_24px]"></div>
-
-          {/* Decorative Animated Glows */}
           <div className="absolute top-0 right-0 w-[50vh] h-[50vh] bg-primary-light/20 rounded-full blur-[100px] -translate-y-1/4 translate-x-1/4 pointer-events-none"></div>
           <div className="absolute bottom-0 left-0 w-[60vh] h-[60vh] bg-[#ff6a00]/10 rounded-full blur-[120px] translate-y-1/4 -translate-x-1/4 pointer-events-none"></div>
 
           <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="max-w-3xl mx-auto text-center mb-12">
+
+            {/* Step indicators */}
+            <div className="flex items-center justify-center gap-3 mb-10">
+              <div className={`flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-bold transition-all ${
+                !isSubmitted ? 'bg-[#ff6a00] text-white' : 'bg-white/10 text-white/50'
+              }`}>
+                <span className="w-5 h-5 rounded-full border-2 border-current flex items-center justify-center text-[10px]">1</span>
+                Your Details
+              </div>
+              <div className="w-8 h-px bg-white/20"></div>
+              <div className={`flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-bold transition-all ${
+                isSubmitted ? 'bg-[#ff6a00] text-white' : 'bg-white/10 text-white/50'
+              }`}>
+                <span className="w-5 h-5 rounded-full border-2 border-current flex items-center justify-center text-[10px]">2</span>
+                Book Meeting
+              </div>
+            </div>
+
+            <div className="max-w-3xl mx-auto text-center mb-10">
               <motion.div
                 initial={{ scale: 0.95, opacity: 0 }}
                 whileInView={{ scale: 1, opacity: 1 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5 }}
               >
-                <h2 className="text-4xl md:text-5xl font-extrabold text-white tracking-tight mb-4">
-                  Check Territory <span className="text-[#ff6a00]">Availability</span>
-                </h2>
-                <p className="text-xl text-slate-300 max-w-2xl mx-auto">
-                  We only partner with one agent per area. Enter your details below to see if your market is still open.
-                </p>
+                <AnimatePresence mode="wait">
+                  {!isSubmitted ? (
+                    <motion.div key="heading-form" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+                      <h2 className="text-4xl md:text-5xl font-extrabold text-white tracking-tight mb-4">
+                        Step 1: <span className="text-[#ff6a00]">Tell Us About You</span>
+                      </h2>
+                      <p className="text-lg text-slate-300 max-w-xl mx-auto">
+                        Fill in your details below. We only partner with one agent per zip code.
+                      </p>
+                    </motion.div>
+                  ) : (
+                    <motion.div key="heading-book" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+                      <h2 className="text-4xl md:text-5xl font-extrabold text-white tracking-tight mb-4">
+                        Step 2: <span className="text-[#ff6a00]">Book Your Call</span>
+                      </h2>
+                      <p className="text-lg text-slate-300 max-w-xl mx-auto">
+                        Pick a time that works for you. We&apos;ll confirm your territory and walk you through next steps.
+                      </p>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </motion.div>
             </div>
 
@@ -577,7 +508,9 @@ export default function HomePage() {
               whileInView={{ y: 0, opacity: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="max-w-md mx-auto bg-white rounded-3xl shadow-[0_20px_60px_-15px_rgba(0,0,0,0.5)] p-8 relative z-10 overflow-hidden"
+              className={`mx-auto bg-white rounded-3xl shadow-[0_20px_60px_-15px_rgba(0,0,0,0.5)] relative z-10 overflow-hidden transition-all duration-500 ${
+                isSubmitted ? 'max-w-3xl p-0' : 'max-w-md p-8'
+              }`}
             >
               <div className="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-primary to-[#ff6a00]"></div>
 
@@ -587,90 +520,98 @@ export default function HomePage() {
                     key="form"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
-                    exit={{ opacity: 0, scale: 0.95 }}
+                    exit={{ opacity: 0, x: -20 }}
                     className="space-y-5"
                     onSubmit={handleSubmit}
                   >
                     <div>
                       <label htmlFor="fullName" className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2 text-left">Full Name</label>
                       <div className="relative">
-                        <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
-                          <User className="h-5 w-5 text-slate-400" />
-                        </div>
-                        <input type="text" id="fullName" placeholder="Jane Doe" className="w-full pl-11 pr-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-[#ff6a00]/50 focus:border-[#ff6a00] focus:bg-white transition-all outline-none text-slate-800 placeholder-slate-400 font-medium" required />
+                        <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none"><User className="h-5 w-5 text-slate-400" /></div>
+                        <input type="text" id="fullName" name="fullName" placeholder="Jane Doe" className="w-full pl-11 pr-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-[#ff6a00]/50 focus:border-[#ff6a00] focus:bg-white transition-all outline-none text-slate-800 placeholder-slate-400 font-medium" required />
                       </div>
                     </div>
                     <div>
                       <label htmlFor="zipCode" className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2 text-left">Target Zip Code(s)</label>
                       <div className="relative">
-                        <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
-                          <MapPin className="h-5 w-5 text-slate-400" />
-                        </div>
-                        <input type="text" id="zipCode" placeholder="e.g. 90210, 90211" className="w-full pl-11 pr-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-[#ff6a00]/50 focus:border-[#ff6a00] focus:bg-white transition-all outline-none text-slate-800 placeholder-slate-400 font-medium" required />
+                        <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none"><MapPin className="h-5 w-5 text-slate-400" /></div>
+                        <input type="text" id="zipCode" name="zipCode" placeholder="e.g. 90210, 90211" className="w-full pl-11 pr-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-[#ff6a00]/50 focus:border-[#ff6a00] focus:bg-white transition-all outline-none text-slate-800 placeholder-slate-400 font-medium" required />
                       </div>
                     </div>
                     <div>
                       <label htmlFor="email" className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2 text-left">Email Address</label>
                       <div className="relative">
-                        <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
-                          <Mail className="h-5 w-5 text-slate-400" />
-                        </div>
-                        <input type="email" id="email" placeholder="jane@brokerage.com" className="w-full pl-11 pr-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-[#ff6a00]/50 focus:border-[#ff6a00] focus:bg-white transition-all outline-none text-slate-800 placeholder-slate-400 font-medium" required />
+                        <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none"><Mail className="h-5 w-5 text-slate-400" /></div>
+                        <input type="email" id="email" name="email" placeholder="jane@brokerage.com" className="w-full pl-11 pr-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-[#ff6a00]/50 focus:border-[#ff6a00] focus:bg-white transition-all outline-none text-slate-800 placeholder-slate-400 font-medium" required />
                       </div>
                     </div>
                     <div>
                       <label htmlFor="phone" className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2 text-left">Phone Number</label>
                       <div className="relative">
-                        <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
-                          <Phone className="h-5 w-5 text-slate-400" />
-                        </div>
-                        <input type="tel" id="phone" placeholder="(555) 123-4567" className="w-full pl-11 pr-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-[#ff6a00]/50 focus:border-[#ff6a00] focus:bg-white transition-all outline-none text-slate-800 placeholder-slate-400 font-medium" required />
+                        <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none"><Phone className="h-5 w-5 text-slate-400" /></div>
+                        <input type="tel" id="phone" name="phone" placeholder="(555) 123-4567" className="w-full pl-11 pr-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-[#ff6a00]/50 focus:border-[#ff6a00] focus:bg-white transition-all outline-none text-slate-800 placeholder-slate-400 font-medium" required />
                       </div>
                     </div>
                     <button
                       type="submit"
                       disabled={isSubmitting}
-                      className="group relative w-full flex items-center justify-center py-4 px-6 bg-[#ff6a00] hover:bg-[#e65f00] text-white font-bold text-lg rounded-xl shadow-[0_4px_14px_0_rgba(255,106,0,0.39)] hover:shadow-[0_6px_20px_rgba(255,106,0,0.23)] transition-all mt-8 overflow-hidden disabled:opacity-70 disabled:cursor-not-allowed border-none"
+                      className="group relative w-full flex items-center justify-center py-4 px-6 bg-[#ff6a00] hover:bg-[#e65f00] text-white font-bold text-lg rounded-xl shadow-[0_4px_14px_0_rgba(255,106,0,0.39)] transition-all mt-6 disabled:opacity-70 disabled:cursor-not-allowed border-none"
                     >
                       <span className="relative z-10 flex items-center gap-2">
                         {isSubmitting ? (
-                          <>
-                            <Loader2 className="w-5 h-5 animate-spin" />
-                            Checking Area...
-                          </>
+                          <><Loader2 className="w-5 h-5 animate-spin" />Verifying Territory...</>
                         ) : (
-                          <>
-                            Check Availability
-                            <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                          </>
+                          <><Calendar className="w-5 h-5" />Continue to Book Meeting<ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" /></>
                         )}
                       </span>
                     </button>
-                    <p className="text-center text-[11px] text-slate-500 mt-4 flex items-center justify-center gap-1.5 font-medium">
-                      <Lock className="w-3 h-3" />
-                      Your information is secure and confidential.
+                    <p className="text-center text-[11px] text-slate-500 mt-3 flex items-center justify-center gap-1.5 font-medium">
+                      <Lock className="w-3 h-3" />Your information is secure and confidential.
                     </p>
                   </motion.form>
                 ) : (
                   <motion.div
-                    key="success"
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    className="flex flex-col items-center justify-center py-10 text-center"
+                    key="book"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.4 }}
+                    className="flex flex-col"
                   >
-                    <div className="w-20 h-20 bg-green-50 rounded-full flex items-center justify-center mb-6 border-8 border-green-50/50">
-                      <CheckCircle2 className="w-10 h-10 text-green-500" />
+                    {/* Top bar with user summary */}
+                    <div className="flex items-center justify-between px-6 py-4 bg-slate-50 border-b border-slate-100">
+                      <div className="flex items-center gap-3">
+                        <div className="w-9 h-9 bg-green-100 rounded-full flex items-center justify-center">
+                          <CheckCircle2 className="w-5 h-5 text-green-600" />
+                        </div>
+                        <div className="text-left">
+                          <p className="text-xs text-slate-500 font-medium">Booking for</p>
+                          <p className="text-sm font-bold text-slate-900 truncate max-w-[180px]">{formData.name || "You"}</p>
+                        </div>
+                      </div>
+                      <button
+                        onClick={() => setIsSubmitted(false)}
+                        className="text-xs text-slate-400 hover:text-[#ff6a00] transition-colors font-medium flex items-center gap-1"
+                      >
+                        ← Edit details
+                      </button>
                     </div>
-                    <h3 className="text-2xl font-extrabold text-slate-900 mb-3">Request Received!</h3>
-                    <p className="text-slate-600 leading-relaxed text-sm mb-8">
-                      We're checking our database for your area. We will contact you shortly to confirm availability.
-                    </p>
-                    <button
-                      onClick={() => setIsSubmitted(false)}
-                      className="text-slate-500 font-bold hover:text-slate-800 transition-colors flex items-center gap-2 px-4 py-3 bg-slate-50 rounded-xl border border-slate-200 hover:bg-slate-100 w-full justify-center text-sm"
-                    >
-                      Check another area
-                    </button>
+
+                    {/* Embedded Google Calendar */}
+                    <iframe
+                      src={`https://calendar.google.com/calendar/appointments/schedules/AcZssZ1XktoinyOwSoAVA1doSmF1faDKjbRBPZfWIm6qxhLWnWgHb8NNGFmM7G74QSgefT59T_Kod05B?embed=true`}
+                      style={{ border: 0 }}
+                      width="100%"
+                      height="600"
+                      title="Book a Strategy Call"
+                      sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-popups-to-escape-sandbox"
+                    />
+
+                    <div className="px-6 py-3 bg-slate-50 border-t border-slate-100 text-center">
+                      <p className="text-[11px] text-slate-400 flex items-center justify-center gap-1.5">
+                        <Lock className="w-3 h-3" />Powered by Google Calendar · Your info stays private
+                      </p>
+                    </div>
                   </motion.div>
                 )}
               </AnimatePresence>
@@ -715,7 +656,11 @@ export default function HomePage() {
               <ul className="space-y-3">
                 <li className="flex items-start gap-3">
                   <Mail className="w-4 h-4 text-primary-light shrink-0 mt-0.5" />
-                  <span className="text-slate-400 text-sm">hello@domireach.com</span>
+                  <a href="mailto:workarpit95@gmail.com" className="text-slate-400 hover:text-white transition-colors text-sm">workarpit95@gmail.com</a>
+                </li>
+                <li className="flex items-start gap-3">
+                  <Mail className="w-4 h-4 text-primary-light shrink-0 mt-0.5" />
+                  <a href="mailto:priyanshu.rolph@gmail.com" className="text-slate-400 hover:text-white transition-colors text-sm">priyanshu.rolph@gmail.com</a>
                 </li>
               </ul>
             </div>
@@ -740,19 +685,6 @@ export default function HomePage() {
         </div>
       </footer>
 
-      {/* Marquee Keyframes for Tailwind */}
-      <style dangerouslySetInnerHTML={{__html: `
-        @keyframes marquee {
-          0% { transform: translateX(0%); }
-          100% { transform: translateX(-50%); }
-        }
-        .animate-marquee {
-          animation: marquee 30s linear infinite;
-        }
-        @keyframes shimmer {
-          100% { transform: translateX(100%); }
-        }
-      `}} />
     </div>
   );
 }

@@ -16,3 +16,23 @@ body {
   background: var(--color-primary-light);
   color: white;
 }
+
+/* ── Marquee ── */
+@keyframes marquee {
+  0%   { transform: translateX(0%); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-marquee {
+  animation: marquee 30s linear infinite;
+}
+
+/* ── Shimmer (hero CTA) ── */
+@keyframes shimmer {
+  100% { transform: translateX(100%); }
+}
+
+/* ── Scroll-behavior is handled by html class ── */
+html {
+  scroll-behavior: smooth;
+}

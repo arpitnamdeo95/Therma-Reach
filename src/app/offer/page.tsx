@@ -129,7 +129,11 @@ export default function OfferPage() {
               <ul className="space-y-4">
                 <li className="flex items-start gap-3">
                   <Mail className="w-5 h-5 text-primary-light shrink-0" />
-                  <span className="text-slate-400 text-sm">hello@domireach.com</span>
+                  <a href="mailto:workarpit95@gmail.com" className="text-slate-400 hover:text-white transition-colors text-sm">workarpit95@gmail.com</a>
+                </li>
+                <li className="flex items-start gap-3">
+                  <Mail className="w-5 h-5 text-primary-light shrink-0" />
+                  <a href="mailto:priyanshu.rolph@gmail.com" className="text-slate-400 hover:text-white transition-colors text-sm">priyanshu.rolph@gmail.com</a>
                 </li>
               </ul>
             </div>
